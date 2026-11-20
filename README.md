@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Coy Discover
 
-First, run the development server:
+A mobile-first dating discovery application inspired by modern swipe-based platforms.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Features
+
+- Discover profiles one at a time.
+- Like or pass profiles using buttons or drag gestures.
+- Smooth swipe card animations.
+- 30 mock user profiles.
+- Mutual likes create a match.
+- Matches are displayed in a separate Matches tab.
+- Swiped profiles do not appear again after page reload.
+- Responsive mobile-first interface.
+
+## Tech Stack
+
+- Next.js
+- React.js
+- JavaScript
+- CSS
+- Node.js
+- Next.js Route Handlers
+- SQLite
+- Prisma ORM
+
+## Project Setup
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/aurabhsing-hue/coy-discover.git
+   ```
+
+2. Open the project directory:
+
+   ```bash
+   cd coy-discover
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+4. Create a `.env` file and configure the database URL:
+
+   ```env
+   DATABASE_URL="file:./dev.db"
+   ```
+
+5. Run database migration:
+
+   ```bash
+   npx prisma migrate dev
+   ```
+
+6. Seed mock profiles:
+
+   ```bash
+   npx prisma db seed
+   ```
+
+7. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+8. Open http://localhost:3000
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/feed` | Fetch profiles not yet swiped |
+| POST | `/api/swipe` | Save a Like or Pass and check for a match |
+| GET | `/api/matches` | Fetch mutual matches |
+
+### POST /api/swipe
+
+Request body:
+
+```json
+{
+  "profileId": "1",
+  "action": "like"
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Possible actions: `like`, `pass`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Matching Logic
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+A match is created only when the current user likes a profile that has already liked the current user.
 
-## Learn More
+Profiles that have liked the current user are not exposed through the feed API.
 
-To learn more about Next.js, take a look at the following resources:
+## Demo
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project uses mock profile data and assumes a single logged-in user, as specified in the assignment.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Author
 
-## Deploy on Vercel
+Saurabh Singh
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
