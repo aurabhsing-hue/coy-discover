@@ -286,3 +286,98 @@ body {
 .app-container {
   overflow-x: hidden;
 }
+
+
+/* Match Modal */
+.match-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  animation: modalFadeIn 0.3s ease;
+}
+
+.match-modal {
+  width: 100%;
+  max-width: 380px;
+  padding: 35px 25px;
+  border-radius: 24px;
+  background: linear-gradient(145deg, #fff0f5, #ffffff);
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: modalPopIn 0.35s ease;
+}
+
+.match-modal h1 {
+  margin-bottom: 12px;
+  color: #e83e70;
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.match-modal p {
+  margin-bottom: 22px;
+  color: #555;
+  font-size: 15px;
+}
+
+.match-profile-image {
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 15px;
+  overflow: hidden;
+  border: 5px solid white;
+  border-radius: 50%;
+  box-shadow: 0 5px 20px rgba(232, 62, 112, 0.25);
+}
+
+.match-profile-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.match-modal h2 {
+  margin-bottom: 25px;
+  color: #222;
+  font-size: 22px;
+}
+
+.match-modal button {
+  width: 100%;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 30px;
+  background: #e83e70;
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.match-modal button:hover {
+  background: #d52c60;
+  transform: translateY(-2px);
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

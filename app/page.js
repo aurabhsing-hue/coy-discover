@@ -13,6 +13,7 @@ export default function Home() {
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [isSwiping, setIsSwiping] = useState(false);
+  const [matchProfile, setMatchProfile] = useState(null);
 
   const dragStart = useRef({ x: 0, y: 0 });
   const dragPosition = useRef({ x: 0, y: 0 });
@@ -88,13 +89,14 @@ export default function Home() {
         throw new Error(data.error || "Swipe failed");
       }
 
-      setFeedback(
-        data.matched
-          ? "It's a match! ❤️"
-          : action === "like"
-          ? "❤️ Liked!"
-          : "Passed"
-      );
+      if (data.matched) {
+        setMatchProfile(currentProfile);
+        setFeedback("");
+      } else {
+        setFeedback(
+          action === "like" ? "❤️ Liked!" : "Passed"
+        );
+      }
 
       setDragOffset({
         x: action === "like" ? 600 : -600,
@@ -116,6 +118,10 @@ export default function Home() {
     }
   }
 
+  function closeMatchModal() {
+    setMatchProfile(null);
+  }
+
   function handlePointerDown(event) {
     if (event.target.closest("button") || isSwiping) return;
 
@@ -130,25 +136,25 @@ export default function Home() {
     event.currentTarget.setPointerCapture(event.pointerId);
   }
 
-  
-function handlePointerMove(event) {
-  if (!isDragging || isSwiping) return;
 
-  const x = event.clientX - dragStart.current.x;
-  const y = event.clientY - dragStart.current.y;
+  function handlePointerMove(event) {
+    if (!isDragging || isSwiping) return;
 
-  // Actual distance is used to detect swipe
-  dragPosition.current = { x, y };
+    const x = event.clientX - dragStart.current.x;
+    const y = event.clientY - dragStart.current.y;
 
-  // Limit visual movement while dragging
-  const limitedX = Math.max(-120, Math.min(120, x));
-  const limitedY = Math.max(-40, Math.min(40, y));
+    // Actual distance is used to detect swipe
+    dragPosition.current = { x, y };
 
-  setDragOffset({
-    x: limitedX,
-    y: limitedY,
-  });
-}
+    // Limit visual movement while dragging
+    const limitedX = Math.max(-120, Math.min(120, x));
+    const limitedY = Math.max(-40, Math.min(40, y));
+
+    setDragOffset({
+      x: limitedX,
+      y: limitedY,
+    });
+  }
 
 
   function handlePointerUp() {
@@ -330,6 +336,32 @@ function handlePointerMove(event) {
           Matches
         </button>
       </nav>
+      {matchProfile && (
+  <div className="match-modal-overlay">
+    <div className="match-modal">
+      <h1>It's a Match! ❤️</h1>
+
+      <p>
+        You and {matchProfile.name} liked each other.
+      </p>
+
+      <div className="match-profile-image">
+        <img
+          src={matchProfile.photo}
+          alt={matchProfile.name}
+        />
+      </div>
+
+      <h2>
+        {matchProfile.name}, {matchProfile.age}
+      </h2>
+
+      <button onClick={closeMatchModal}>
+        Continue Discovering
+      </button>
+    </div>
+  </div>
+)}
     </main>
   );
 }
